@@ -1,33 +1,43 @@
-<script setup lang="ts">
-defineProps({
-  id: Number,
-  availability: Boolean,
-  name: String,
-  price: Number,
-  img: String,
-  type: String,
-})
-
-</script>
-
 <template>
   <li class="card">
-    <router-link :to="`/experience/${id}`">
-      <div class="card-content">
+    <div class="card-content">
+      <router-link :to="`/experience/${id}`">
         <h3 class="card-name">{{ name }}</h3>
         <p class="card-price">Price: {{ price }}</p>
         <p class="card-type">{{ type }}</p>
         <p class="card-availability" v-if="availability">Chambre disponible</p>
         <p class="card-availability" v-else>Chambre réservée</p>
-      </div>
-    </router-link>
+      </router-link>
+      <AddRoomButton v-if="availability && !isInBasketStore(id)" :id="id" :price="price" :name="name" />
+      <RemoveRoomButton v-if="isInBasketStore(id)" :id="id" />
+    </div>
   </li>
 </template>
+
+<script setup lang="ts">
+import { useBasketStore } from '../../stores/basket';
+import AddRoomButton from './AddRoomButton.vue';
+import RemoveRoomButton from './RemoveRoomButton.vue';
+
+export interface ExpCard {
+  id: number,
+  name: string,
+  price: number,
+  availability?: boolean,
+  img?: string,
+  type?: string,
+}
+
+defineProps<ExpCard>()
+
+const basketStore = useBasketStore();
+const isInBasketStore = (id?: number) => id ? basketStore.isInBasket(id) : false;
+</script>
 
 <style scoped>
 .card {
   width: 200px;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -45,6 +55,8 @@ defineProps({
 
 .card-content {
   padding-left: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .card-name {

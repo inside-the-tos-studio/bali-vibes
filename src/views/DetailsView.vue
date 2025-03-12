@@ -13,7 +13,8 @@
       <div>
         <span class="tag">#byyourself</span>
       </div>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cum atque ab. A, aliquam. Sed at repudiandae voluptate molestiae odio aliquid tenetur sequi autem delectus repellendus animi, sint architecto corporis?</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cum atque ab. A, aliquam. Sed at repudiandae
+        voluptate molestiae odio aliquid tenetur sequi autem delectus repellendus animi, sint architecto corporis?</p>
       <button>
         Book now
       </button>
@@ -22,7 +23,6 @@
 </template>
 
 <style lang="scss">
-
 .wac-details-page {
   display: flex;
   margin-top: 2rem;
@@ -33,7 +33,7 @@
     flex: 3;
 
     img {
-      border-radius: 16px;
+      border-radius: 1rem;
     }
   }
 
@@ -65,7 +65,8 @@
     }
   }
 }
-@media (min-width: 1024px) {
+
+@media (min-width: 64rem) {
   .about {
     min-height: 100vh;
     display: flex;

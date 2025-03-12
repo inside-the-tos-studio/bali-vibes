@@ -5,9 +5,9 @@ import LogoBaliVibes from '../icons/LogoBaliVibes.vue';
 <template>
   <div class="wac-the-header">
     <div>
-     <router-link to="/">
-       <LogoBaliVibes />
-     </router-link>
+      <router-link to="/">
+        <LogoBaliVibes />
+      </router-link>
     </div>
     <ul>
       <li>
@@ -17,7 +17,7 @@ import LogoBaliVibes from '../icons/LogoBaliVibes.vue';
         <router-link to="/discover">Popular</router-link>
       </li>
       <li>
-        <button class="btn--xs">Basket</button>
+        <router-link to="/basket"><button class="btn--xs">Basket</button></router-link>
       </li>
       <li>
         <div class="avatar text-gray-000 avatar--xs" data-text='AM'></div>

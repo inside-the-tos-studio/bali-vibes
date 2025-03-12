@@ -1,24 +1,27 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-
-export interface Item {
-  name: string;
-  price: number;
-}
+import type { Room } from '@/views/ExperiencesView.vue';
 
 export interface Basket {
-  items: Item[];
+  rooms: Room[];
 }
 
 export const useBasketStore = defineStore('basket', () => {
-  const basket = ref<Basket>({
-    items: []
-  })
-  const totalPrice = computed(() => basket.value.items.reduce((acc, item) => acc + item.price, 0))
+  const storedBasket = localStorage.getItem('basket');
+  const basket = ref<Basket>(storedBasket ? JSON.parse(storedBasket) : { rooms: [] });
 
-  function addItem(item: Item) {
-    basket.value.items.push(item)
+  const totalPrice = computed(() => basket.value.rooms.reduce((acc, room) => acc + room.price, 0))
+  const isInBasket = (id: number) => basket.value.rooms.some(room => room.id === id)
+
+  function addItem(item: Room) {
+    basket.value.rooms.push(item);
+    localStorage.setItem('basket', JSON.stringify(basket.value));
   }
 
-  return { basket, totalPrice, addItem }
+  const removeItem = (id: number) => {
+    basket.value.rooms = basket.value.rooms.filter(room => room.id !== id);
+    localStorage.setItem('basket', JSON.stringify(basket.value));
+  }
+
+  return { basket, totalPrice, addItem, isInBasket, removeItem }
 })
