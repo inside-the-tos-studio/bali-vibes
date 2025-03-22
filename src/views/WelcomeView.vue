@@ -3,9 +3,12 @@
     <img src="/photo1.jpg" alt="" class="home-img">
     <h1>Your next adventure</h1>
     <p>Discover the best adventures in <b>Bali</b>. <br> By yourself, in couple or with your friends ❤️</p>
-    <button>
+   <router-link 
+      to="/discover"
+      class="button"
+    >
       Discover experiences
-    </button>
+    </router-link>
   </main>
 </template>
 
