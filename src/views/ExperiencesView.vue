@@ -6,7 +6,7 @@ const { experiences, loading, error } = useExperiences()
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="max-w-7xl mx-auto px-6 py-8">
     <h1 class="text-4xl font-bold text-gray-900 mb-8">
       Discover Experiences
     </h1>
@@ -19,7 +19,7 @@ const { experiences, loading, error } = useExperiences()
       {{ error }}
     </div>
 
-    <div v-else class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <ExpCard
         v-for="experience in experiences"
         :key="experience.id"
