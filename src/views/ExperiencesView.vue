@@ -24,6 +24,7 @@ const { experiences, loading, error } = useExperiences()
         v-for="experience in experiences"
         :key="experience.id"
         :experience="experience"
+        class="m-4 pt-4 y-4"
       />
     </div>
   </div>
