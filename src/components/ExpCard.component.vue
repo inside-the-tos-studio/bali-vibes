@@ -34,7 +34,7 @@ const defaultImages: Record<RoomType, string>  = {
 
 const getImageUrl = (imgUrl: string, type: string) => {
   if (imgUrl.includes('placehold.co')) {
-    return defaultImages[type.toLowerCase() as RoomType] || '/src/assets/default-room.jpg'
+    return defaultImages[type.toLowerCase() as RoomType] || 'https://placehold.co/600x400'
   }
   return imgUrl
 }

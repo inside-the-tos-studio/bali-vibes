@@ -14,7 +14,7 @@ const router = createRouter({
     {
       path: '/discover',
       name: 'experiences',
-      component: Experiences,
+      component: () => import('@pages/ExperiencesView.vue'), // Lazy loaded
     },
     {
       path: '/experience/:id',

@@ -1,18 +1,26 @@
 import type { Experience } from '@/components/ExpCard.component.vue'
+import { useExperiencesStore } from '@/stores/experiences.store'
 import { ref, onMounted } from 'vue'
 
 export function useExperiences() {
-  const experiences = ref<Experience[]>([])
+    const store = useExperiencesStore()
   const loading = ref(false)
   const error = ref<string | null>(null)
 
+  const getExperiences = (): Experience[] => {
+    return store.experiences
+  }
+
   const fetchExperiences = async () => {
+    if (store.isLoaded) {
+      return // Use cached data if already loaded
+    }
+
     loading.value = true
     error.value = null
     
     try {
-    const response = await fetch('/api/b/34CU')
-      experiences.value = await response.json()
+      await store.fetchExperiences()
     } catch (e) {
       error.value = 'Failed to fetch experiences'
     } finally {
@@ -23,7 +31,7 @@ export function useExperiences() {
   onMounted(fetchExperiences)
 
   return {
-    experiences,
+    experiences: getExperiences(),
     loading,
     error,
     fetchExperiences
