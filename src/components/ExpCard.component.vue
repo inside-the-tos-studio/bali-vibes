@@ -46,14 +46,15 @@ const getImageUrl = (imgUrl: string, type: string) => {
     v-if="experience.availability"
     :to="`/experience/${experience.id}`"
     class="card bg-white h-full rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300"
+    :aria-label="`View details for ${experience.name}, ${experience.type} experience at ${formatPrice(experience.price)} per night`"
   >
     <div class="relative aspect-[4/3]">
       <img 
         :src="getImageUrl(experience.img, experience.type)" 
-        :alt="experience.name"
+        :alt="`${experience.type} room view - ${experience.name}`"
         class="w-full h-full object-cover"
       />
-      <div class="status-badge available">
+      <div class="status-badge available" role="status" aria-live="polite"> 
         Available
       </div>
     </div>
@@ -62,7 +63,7 @@ const getImageUrl = (imgUrl: string, type: string) => {
         {{ experience.name }}
       </h3>
       <p class="mt-2 text-gray-500 capitalize">
-        Experience Type: {{ experience.type }}
+        <span class="sr-only">Experience Type:</span> {{ experience.type }}
       </p>
       <p class="mt-4 text-lg font-bold text-emerald-700">
         {{ formatPrice(experience.price) }} 
@@ -74,15 +75,16 @@ const getImageUrl = (imgUrl: string, type: string) => {
   <!-- Unavailable Experience -->
   <div 
     v-else
-    class="card bg-white h-full rounded-xl overflow-hidden shadow-md grayscale opacity-70"
+    class="card bg-white h-full rounded-xl overflow-hidden shadow-md grayscale opacity-70" role="article"
+    aria-label="Unavailable experience"
   >
     <div class="relative aspect-[4/3]">
       <img 
         :src="experience.img" 
-        :alt="experience.name"
+        :alt="`${experience.type} room view - ${experience.name} (Currently unavailable)`"
         class="w-full h-full object-cover"
       />
-      <div class="status-badge not-available">
+      <div class="status-badge not-available" role="status" aria-live="polite">
         Not available
       </div>
     </div>
@@ -91,7 +93,7 @@ const getImageUrl = (imgUrl: string, type: string) => {
         {{ experience.name }}
       </h3>
       <p class="mt-2 text-gray-500 capitalize">
-        Experience Type: {{ experience.type }}
+        <span class="sr-only">Experience Type:</span> {{ experience.type }}
       </p>
       <p class="mt-4 text-lg font-bold text-emerald-700">
         {{ formatPrice(experience.price) }} 
