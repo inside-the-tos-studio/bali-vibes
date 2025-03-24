@@ -11,6 +11,9 @@ export interface Basket {
 }
 
 export const useBasketStore = defineStore('basket', () => {
+  const savedBasket = localStorage.getItem('basket')
+  const initialBasket: Basket = savedBasket ? JSON.parse(savedBasket) : { items: [] }
+
   const basket = ref<Basket>({
     items: []
   })
@@ -20,5 +23,19 @@ export const useBasketStore = defineStore('basket', () => {
     basket.value.items.push(item)
   }
 
-  return { basket, totalPrice, addItem }
+  function removeItem(index: number) {
+    basket.value.items.splice(index, 1)
+    saveBasket()
+  }
+
+  function clearBasket() {
+    basket.value.items = []
+    localStorage.removeItem('basket')
+  }
+
+  function saveBasket() {
+    localStorage.setItem('basket', JSON.stringify(basket.value))
+  }
+
+  return { basket, totalPrice, addItem, removeItem, clearBasket }
 })

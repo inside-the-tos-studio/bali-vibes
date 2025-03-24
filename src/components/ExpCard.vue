@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { formatDate } from '@/utils/dateFormatter'
+import { formatPrice } from '@/utils/formatPrice'
+import { useBasketStore } from '@/stores/basket'
 
 export interface Experience {
   id: number;
@@ -8,7 +10,7 @@ export interface Experience {
   type: string;
   price: number;
   availability: boolean;
-  availableDate?: Date; // Optional date field
+  availableDate?: Date;
 }
 
 const today = new Date();
@@ -16,15 +18,6 @@ const today = new Date();
 defineProps<{
   experience: Experience;
 }>();
-
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('en-US', { 
-    style: 'currency', 
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  }).format(price);
-};
 
 type RoomType = 'single' | 'double' | 'suite' | 'family' | 'penthouse' | 'apartment';
 
@@ -42,6 +35,17 @@ const getImageUrl = (imgUrl: string, type: string) => {
     return defaultImages[type.toLowerCase() as RoomType] || 'https://placehold.co/600x400'
   }
   return imgUrl
+}
+
+// Add store initialization
+const basketStore = useBasketStore()
+
+// Add method to handle adding to basket
+const addToBasket = (experience: Experience) => {
+  basketStore.addItem({
+    name: experience.name,
+    price: experience.price
+  })
 }
 
 </script>
@@ -77,9 +81,17 @@ const getImageUrl = (imgUrl: string, type: string) => {
         {{ formatPrice(experience.price) }} 
         <span class="text-gray-500 text-sm font-normal">per night</span>
       </p>
+      <button 
+        @click.prevent="addToBasket(experience)"
+        class="basket-button"
+        aria-label="Add to basket"
+      >
+        Add to basket
+      </button>
     </div>
   </router-link>
 
+<!-- TODO: refactor into a component -->
   <!-- Unavailable Experience -->
   <div 
     v-else
@@ -161,5 +173,13 @@ router-link.card:focus-visible {
   .card {
     @apply transition-none;
   }
+}
+
+.basket-button {
+  @apply mt-4 w-full py-2 px-4 rounded-lg;
+  @apply bg-[#4F46E5] text-white;
+  @apply hover:bg-[#4338CA] transition-colors duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2;
+  @apply font-medium text-sm;
 }
 </style>
