@@ -10,6 +10,11 @@ export interface FilterOptions {
   priceTo: number;
 }
 
+// Add this interface to expose component properties
+export interface FilterInstance {
+  filters: FilterOptions;
+}
+
 const props = defineProps<{
   initialFilters?: Partial<FilterOptions>
 }>()
@@ -37,6 +42,20 @@ const filters = ref<FilterOptions>({
   priceTo: props.initialFilters?.priceTo || DEFAULT_FILTERS.priceTo
 })
 
+defineExpose({
+  filters
+})
+
+const resetFilters = () => {
+  // Reset to default values
+  filters.value = {
+    ...DEFAULT_FILTERS,
+    types: [] // Ensure new array reference
+  }
+  // Emit the reset values
+  emit('update:filters', { ...filters.value })
+}
+
 const experienceTypes = ['single', 'double', 'suite', 'family', 'penthouse', 'apartment']
 
 watch(filters, (newFilters) => {
@@ -50,19 +69,6 @@ const toggleType = (type: string) => {
   } else {
     filters.value.types.splice(index, 1)
   }
-}
-
-const resetFilters = () => {
-  // Create a new object with new array reference
-  filters.value = {
-    types: [], // Create new array instance
-    dateIn: DEFAULT_FILTERS.dateIn,
-    dateOut: DEFAULT_FILTERS.dateOut,
-    isTicketAvailable: DEFAULT_FILTERS.isTicketAvailable,
-    priceFrom: DEFAULT_FILTERS.priceFrom,
-    priceTo: DEFAULT_FILTERS.priceTo
-  }
-  emit('update:filters', filters.value)
 }
 </script>
 
@@ -145,6 +151,7 @@ const resetFilters = () => {
           <button 
     type="button"
     class="reset-button"
+    data-test="reset-filters"
     @click="resetFilters"
   >
     Reset Filters
