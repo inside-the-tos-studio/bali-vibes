@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { formatDate } from '@/utils/dateFormatter'
+
 export interface Experience {
   id: number;
   name: string;
@@ -6,7 +8,10 @@ export interface Experience {
   type: string;
   price: number;
   availability: boolean;
+  availableDate?: Date; // Optional date field
 }
+
+const today = new Date();
 
 defineProps<{
   experience: Experience;
@@ -65,6 +70,9 @@ const getImageUrl = (imgUrl: string, type: string) => {
       <p class="mt-2 text-gray-500 capitalize">
         <span class="sr-only">Experience Type:</span> {{ experience.type }}
       </p>
+      <p class="mt-2 text-gray-500">
+        <span class="sr-only">Available from:</span> {{ formatDate(today) }}
+      </p>
       <p class="mt-4 text-lg font-bold text-emerald-700">
         {{ formatPrice(experience.price) }} 
         <span class="text-gray-500 text-sm font-normal">per night</span>
@@ -94,6 +102,9 @@ const getImageUrl = (imgUrl: string, type: string) => {
       </h3>
       <p class="mt-2 text-gray-500 capitalize">
         <span class="sr-only">Experience Type:</span> {{ experience.type }}
+      </p>
+      <p class="mt-2 text-gray-500">
+        <span class="sr-only">Not available on:</span> {{ formatDate(today) }}
       </p>
       <p class="mt-4 text-lg font-bold text-emerald-700">
         {{ formatPrice(experience.price) }} 
