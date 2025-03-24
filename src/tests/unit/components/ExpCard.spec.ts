@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
-import ExpCard, { type Experience } from '@components/ExpCard.component.vue'
+import ExpCard, { type Experience } from '@/components/ExpCard.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const mockExperience: Experience = {

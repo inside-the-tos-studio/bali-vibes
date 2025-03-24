@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '@/config/api'
-import type { Experience } from '@/components/ExpCard.component.vue'
+import type { Experience } from '@/components/ExpCard.vue'
 import { defineStore } from 'pinia'
 
 export const useExperiencesStore = defineStore('experiences', {

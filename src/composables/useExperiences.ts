@@ -1,5 +1,5 @@
 import { ref, onMounted, computed } from 'vue' // Add computed
-import type { Experience } from '@/components/ExpCard.component.vue'
+import type { Experience } from '@/components/ExpCard.vue'
 import { useExperiencesStore } from '@/stores/experiences.store'
 
 export function useExperiences() {
