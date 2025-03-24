@@ -1,7 +1,8 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import ExpCard, { type Experience } from '@/components/ExpCard.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { createPinia, setActivePinia } from 'pinia'
 
 const mockExperience: Experience = {
   id: 1,
@@ -18,6 +19,12 @@ const router = createRouter({
 })
 
 describe('ExpCard', () => {
+  beforeEach(() => {
+    // Create a fresh Pinia instance for each test
+    setActivePinia(createPinia())
+  })
+
+
   it('renders experience details correctly', () => {
     const wrapper = mount(ExpCard, {
       props: {

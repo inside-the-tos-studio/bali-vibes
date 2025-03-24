@@ -29,7 +29,7 @@ describe('useExperiences', () => {
   it('should initialize with default values', () => {
     const { experiences, loading, error } = useExperiences()
     
-    expect(experiences).toEqual([])
+    expect(experiences.value).toEqual([])
     expect(loading.value).toBe(false)
     expect(error.value).toBe(null)
   })
@@ -70,6 +70,6 @@ describe('useExperiences', () => {
     })
 
     const { experiences } = useExperiences()
-    expect(experiences).toEqual(mockExperiences)
+    expect(experiences.value).toEqual(mockExperiences)
   })
 })

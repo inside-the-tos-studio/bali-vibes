@@ -43,8 +43,11 @@ const basketStore = useBasketStore()
 // Add method to handle adding to basket
 const addToBasket = (experience: Experience) => {
   basketStore.addItem({
+    id: experience.id,
     name: experience.name,
-    price: experience.price
+    price: experience.price,
+    type: experience.type,
+    img: experience.img
   })
 }
 

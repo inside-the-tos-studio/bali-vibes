@@ -18,13 +18,23 @@ const emit = defineEmits<{
   (e: 'update:filters', filters: FilterOptions): void
 }>()
 
+// Add default values constant
+const DEFAULT_FILTERS: FilterOptions = {
+  types: [],
+  dateIn: '',
+  dateOut: '',
+  isTicketAvailable: null,
+  priceFrom: 0,
+  priceTo: 1000
+}
+
 const filters = ref<FilterOptions>({
-  types: props.initialFilters?.types || [],
-  dateIn: props.initialFilters?.dateIn || '',
-  dateOut: props.initialFilters?.dateOut || '',
-  isTicketAvailable: props.initialFilters?.isTicketAvailable || null,
-  priceFrom: props.initialFilters?.priceFrom || 0,
-  priceTo: props.initialFilters?.priceTo || 1000
+  types: props.initialFilters?.types || DEFAULT_FILTERS.types,
+  dateIn: props.initialFilters?.dateIn || DEFAULT_FILTERS.dateIn,
+  dateOut: props.initialFilters?.dateOut || DEFAULT_FILTERS.dateOut,
+  isTicketAvailable: props.initialFilters?.isTicketAvailable || DEFAULT_FILTERS.isTicketAvailable,
+  priceFrom: props.initialFilters?.priceFrom || DEFAULT_FILTERS.priceFrom,
+  priceTo: props.initialFilters?.priceTo || DEFAULT_FILTERS.priceTo
 })
 
 const experienceTypes = ['single', 'double', 'suite', 'family', 'penthouse', 'apartment']
@@ -40,6 +50,19 @@ const toggleType = (type: string) => {
   } else {
     filters.value.types.splice(index, 1)
   }
+}
+
+const resetFilters = () => {
+  // Create a new object with new array reference
+  filters.value = {
+    types: [], // Create new array instance
+    dateIn: DEFAULT_FILTERS.dateIn,
+    dateOut: DEFAULT_FILTERS.dateOut,
+    isTicketAvailable: DEFAULT_FILTERS.isTicketAvailable,
+    priceFrom: DEFAULT_FILTERS.priceFrom,
+    priceTo: DEFAULT_FILTERS.priceTo
+  }
+  emit('update:filters', filters.value)
 }
 </script>
 
@@ -117,6 +140,15 @@ const toggleType = (type: string) => {
             min="0"
             class="filter__input"
           >
+        </div>
+        <div>
+          <button 
+    type="button"
+    class="reset-button"
+    @click="resetFilters"
+  >
+    Reset Filters
+  </button>
         </div>
       </div>
     </div>
