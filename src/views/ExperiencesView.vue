@@ -19,7 +19,7 @@ const { experiences, loading, error } = useExperiences()
       {{ error }}
     </div>
 
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" style="gap: 10px">
       <ExpCard
         v-for="experience in experiences"
         :key="experience.id"
