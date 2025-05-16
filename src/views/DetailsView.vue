@@ -1,28 +1,44 @@
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { useDataInjection } from "@/composables/useDataInjection";
+import type { Experience } from "@/components/ExpCard.vue";
+
+const route = useRoute();
+const experience = ref<Experience | null>(null);
+
+onMounted(async () => {
+  const id = route.params.id;
+  experience.value = await useDataInjection().getDetailsById(Number(id));
+});
 </script>
 
 <template>
   <div class="wac-details-page page">
     <div class="start">
-      <img src="/photo1.jpg" alt="" width="500" height="300">
+      <img src="/photo1.jpg" alt="" width="500" height="300" />
     </div>
     <div class="end">
-      <h1>Name of my experience</h1>
-      <span>Starts the</span>
-      <span>Ends at</span>
+      <h1>{{ experience?.name }}</h1>
+      <p>{{ experience?.price }}€</p>
       <div>
-        <span class="tag">#byyourself</span>
+        <span>Starts the</span>
+        <span>Ends at</span>
       </div>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cum atque ab. A, aliquam. Sed at repudiandae voluptate molestiae odio aliquid tenetur sequi autem delectus repellendus animi, sint architecto corporis?</p>
-      <button>
-        Book now
-      </button>
+      <div>
+        <span class="tag">#{{ experience?.type }}</span>
+      </div>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cum atque ab. A, aliquam. Sed
+        at repudiandae voluptate molestiae odio aliquid tenetur sequi autem delectus repellendus
+        animi, sint architecto corporis?
+      </p>
+      <button>Book now</button>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-
 .wac-details-page {
   display: flex;
   margin-top: 2rem;
