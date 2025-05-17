@@ -3,12 +3,15 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useDataInjection } from "@/composables/useDataInjection";
 import type { Experience } from "@/components/ExpCard.vue";
+import { useDate } from "@/composables/useDate";
 
 const route = useRoute();
 const experience = ref<Experience | null>(null);
+const today = ref(new Date());
 
 onMounted(async () => {
   const id = route.params.id;
+  today.value = new Date();
   experience.value = await useDataInjection().getDetailsById(Number(id));
 });
 </script>
@@ -20,10 +23,19 @@ onMounted(async () => {
     </div>
     <div class="end">
       <h1>{{ experience?.name }}</h1>
-      <p>{{ experience?.price }}€</p>
-      <div>
-        <span>Starts the</span>
-        <span>Ends at</span>
+      <p>Price: {{ experience?.price }}€</p>
+      <div class="wac-details-page__dates" v-if="experience?.availablePeriods">
+        <span
+          >Start date:
+          {{ useDate().nextPeriod.value(experience?.availablePeriods, today)?.startDate }}</span
+        >
+        <span>
+          End date:
+          {{ useDate().nextPeriod.value(experience?.availablePeriods, today)?.endDate }}</span
+        >
+      </div>
+      <div v-else>
+        <span>No available period</span>
       </div>
       <div>
         <span class="tag">#{{ experience?.type }}</span>
@@ -44,12 +56,18 @@ onMounted(async () => {
   margin-top: 2rem;
   gap: 2rem;
   min-height: 100vh;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 
   .start {
     flex: 3;
 
     img {
       border-radius: 16px;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 
@@ -61,6 +79,7 @@ onMounted(async () => {
 
     h1 {
       font-size: 2rem;
+      margin-bottom: 0;
     }
 
     span {
@@ -69,6 +88,7 @@ onMounted(async () => {
 
     p {
       font-size: 1rem;
+      margin-bottom: 0;
     }
 
     button {
@@ -79,6 +99,12 @@ onMounted(async () => {
       border-radius: 0.5rem;
       cursor: pointer;
     }
+  }
+
+  &__dates {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 @media (min-width: 1024px) {

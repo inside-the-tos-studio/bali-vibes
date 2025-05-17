@@ -1,25 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
-import { parseISO, format, isBefore, isAfter } from "date-fns";
+import { useDate } from "@/composables/useDate";
 
 const props = defineProps<{
   experience: Experience;
 }>();
 
 const today = ref(new Date());
+const nextPeriod = ref<AvailablePeriod | null>(null);
 
 onMounted(() => {
   today.value = new Date();
-});
-
-const isAvailable = computed(() => {
-  const nextPeriod = props.experience.availablePeriods.find((period) => {
-    return isBefore(today.value, parseISO(period.startDate));
-  });
-  return nextPeriod
-    ? `Next: ${format(parseISO(nextPeriod.startDate), "dd/MM/yyyy")}`
-    : "No available period";
+  nextPeriod.value = useDate().nextPeriod.value(props.experience.availablePeriods, today.value);
 });
 
 export interface Experience {
@@ -59,7 +52,8 @@ export interface AvailablePeriod {
         <p class="exp-card__price">{{ experience.price }}€</p>
       </div>
       <div>
-        <p class="exp-card__date">{{ isAvailable }}</p>
+        <p class="exp-card__date" v-if="nextPeriod">Next: {{ nextPeriod?.startDate }}</p>
+        <p class="exp-card__date" v-else>No available period</p>
       </div>
     </div>
   </router-link>
