@@ -13,5 +13,28 @@ export const useExperiencesStore = defineStore("experiences", () => {
     return experiences.value;
   }
 
-  return { experiences, setExperiences, getExperiences };
+  function getFilteredExperiences(filters: {
+    type?: string;
+    availability?: boolean | string;
+    priceFrom?: number;
+    priceTo?: number;
+  }) {
+    return experiences.value.filter((exp) => {
+      let match = true;
+      if (filters.type !== undefined && filters.type !== "all")
+        match = match && exp.type === filters.type;
+      if (filters.availability !== undefined && filters.availability !== "all")
+        match = match && exp.availability === filters.availability;
+      if (filters.priceFrom !== undefined) match = match && exp.price >= filters.priceFrom;
+      if (filters.priceTo !== undefined) match = match && exp.price <= filters.priceTo;
+      return match;
+    });
+  }
+
+  return {
+    experiences,
+    setExperiences,
+    getExperiences,
+    getFilteredExperiences,
+  };
 });

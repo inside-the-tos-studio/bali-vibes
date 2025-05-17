@@ -2,13 +2,25 @@
 import ExpCard from "@/components/ExpCard.vue";
 import { onMounted, ref } from "vue";
 import { useDataInjection } from "@/composables/useDataInjection";
+import { useExperiencesStore } from "@/stores/experiences";
 import type { Experience } from "@/components/ExpCard.vue";
 import IconLoader from "@/components/icons/IconLoader.vue";
+import FilterCard from "@/components/FilterCard.vue";
 const experiences = ref<Experience[] | null>(null);
 
 onMounted(async () => {
   experiences.value = await useDataInjection().experiences();
 });
+
+const loadExperiences = (filters: {
+  type?: string;
+  availability?: boolean;
+  priceMin?: number;
+  priceMax?: number;
+}) => {
+  experiences.value = useExperiencesStore().getFilteredExperiences(filters);
+  console.log(experiences.value, "depuis expview");
+};
 </script>
 
 <template>
@@ -25,6 +37,7 @@ onMounted(async () => {
       </div>
       <div v-else>
         <h1 class="wac-experiences-page__title">List of experiences</h1>
+        <FilterCard @load-experiences="loadExperiences" />
         <div class="wac-experiences-page__exp-cards">
           <ExpCard
             :experience="experience"
