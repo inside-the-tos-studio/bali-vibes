@@ -1,18 +1,25 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
+import { parseISO, format, isBefore, isAfter } from "date-fns";
 
-defineProps<{
+const props = defineProps<{
   experience: Experience;
 }>();
 
-const formattedToday = computed(() => {
-  const today = new Date();
-  return today.toLocaleDateString("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
+const today = ref(new Date());
+
+onMounted(() => {
+  today.value = new Date();
+});
+
+const isAvailable = computed(() => {
+  const nextPeriod = props.experience.availablePeriods.find((period) => {
+    return isBefore(today.value, parseISO(period.startDate));
   });
+  return nextPeriod
+    ? `Next: ${format(parseISO(nextPeriod.startDate), "dd/MM/yyyy")}`
+    : "No available period";
 });
 
 export interface Experience {
@@ -22,6 +29,12 @@ export interface Experience {
   availability: boolean;
   price: number;
   type: string;
+  availablePeriods: AvailablePeriod[];
+}
+
+export interface AvailablePeriod {
+  startDate: string;
+  endDate: string;
 }
 </script>
 
@@ -46,7 +59,7 @@ export interface Experience {
         <p class="exp-card__price">{{ experience.price }}€</p>
       </div>
       <div>
-        <p class="exp-card__date">{{ formattedToday }}</p>
+        <p class="exp-card__date">{{ isAvailable }}</p>
       </div>
     </div>
   </router-link>
@@ -130,8 +143,6 @@ export interface Experience {
   &__date {
     font-size: 0.9rem;
     color: #666;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
     text-align: right;
   }
 
