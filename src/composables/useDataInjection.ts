@@ -2,6 +2,13 @@ import type { Experience } from "@/components/ExpCard.vue";
 import { useExperiencesStore } from "@/stores/experiences";
 
 export const useDataInjection = () => {
+  const types = ["single", "double", "suite", "family", "penthouse", "apartment"];
+  const availabilityOptions = [
+    { value: "all", label: "All" },
+    { value: true, label: "Available" },
+    { value: false, label: "Unavailable" },
+  ];
+
   const experiences = async (): Promise<Experience[]> => {
     const data = await fetch("/data.json");
     await new Promise((resolve) => setTimeout(resolve, 250));
@@ -21,6 +28,8 @@ export const useDataInjection = () => {
   };
 
   return {
+    types,
+    availabilityOptions,
     experiences,
     getDetailsById,
   };

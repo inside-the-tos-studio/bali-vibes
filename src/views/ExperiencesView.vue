@@ -15,16 +15,17 @@ onMounted(async () => {
 const loadExperiences = (filters: {
   type?: string;
   availability?: boolean;
-  priceMin?: number;
-  priceMax?: number;
+  priceFrom?: number;
+  priceTo?: number;
 }) => {
   experiences.value = useExperiencesStore().getFilteredExperiences(filters);
-  console.log(experiences.value, "depuis expview");
 };
 </script>
 
 <template>
   <main class="wac-experiences-page page">
+    <h1 class="wac-experiences-page__title">List of experiences</h1>
+    <FilterCard @load-experiences="loadExperiences" />
     <div v-if="!experiences">
       <div class="wac-experiences-page__loading">
         <IconLoader />
@@ -32,12 +33,9 @@ const loadExperiences = (filters: {
     </div>
     <div v-else>
       <div class="wac-experiences-page__header" v-if="experiences && experiences.length === 0">
-        <h1 class="wac-experiences-page__title">No results</h1>
-        <p>Come later to see the list of experiences</p>
+        <p class="wac-experiences-page__header-text">No results found for your search</p>
       </div>
       <div v-else>
-        <h1 class="wac-experiences-page__title">List of experiences</h1>
-        <FilterCard @load-experiences="loadExperiences" />
         <div class="wac-experiences-page__exp-cards">
           <ExpCard
             :experience="experience"
@@ -82,6 +80,9 @@ const loadExperiences = (filters: {
     justify-content: center;
     align-items: center;
     height: 100%;
+  }
+  &__header {
+    text-align: center;
   }
 }
 </style>

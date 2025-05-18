@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { Experience } from "@/components/ExpCard.vue";
+import { useDate } from "@/composables/useDate";
 
 export const useExperiencesStore = defineStore("experiences", () => {
   const experiences = ref<Experience[]>([]);
@@ -18,6 +19,8 @@ export const useExperiencesStore = defineStore("experiences", () => {
     availability?: boolean | string;
     priceFrom?: number;
     priceTo?: number;
+    dateStart?: string;
+    dateEnd?: string;
   }) {
     return experiences.value.filter((exp) => {
       let match = true;
@@ -27,6 +30,9 @@ export const useExperiencesStore = defineStore("experiences", () => {
         match = match && exp.availability === filters.availability;
       if (filters.priceFrom !== undefined) match = match && exp.price >= filters.priceFrom;
       if (filters.priceTo !== undefined) match = match && exp.price <= filters.priceTo;
+      if (filters.dateStart !== undefined && filters.dateEnd !== undefined)
+        match =
+          match && useDate().isInPeriod(exp.availablePeriods, filters.dateStart, filters.dateEnd);
       return match;
     });
   }

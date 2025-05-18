@@ -25,6 +25,7 @@ onMounted(async () => {
       <h1>{{ experience?.name }}</h1>
       <p>Price: {{ experience?.price }}€</p>
       <div class="wac-details-page__dates" v-if="experience?.availablePeriods">
+        <h2 class="wac-details-page__dates-title">Next dates</h2>
         <span
           >Start date:
           {{ useDate().nextPeriod.value(experience?.availablePeriods, today)?.startDate }}</span
@@ -33,6 +34,15 @@ onMounted(async () => {
           End date:
           {{ useDate().nextPeriod.value(experience?.availablePeriods, today)?.endDate }}</span
         >
+        <div>
+          <h3 class="wac-details-page__dates-title">Others dates</h3>
+          <div
+            v-for="period in useDate().nextDates(experience?.availablePeriods, today)"
+            :key="period.startDate"
+          >
+            <span>{{ period.startDate }} - {{ period.endDate }}</span>
+          </div>
+        </div>
       </div>
       <div v-else>
         <span>No available period</span>
@@ -105,6 +115,12 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+
+    &-title {
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 0;
+    }
   }
 }
 @media (min-width: 1024px) {
