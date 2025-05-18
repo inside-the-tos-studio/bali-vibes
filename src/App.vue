@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { RouterView } from 'vue-router'
-  import TheHeader from '@components/globals/TheHeader.vue';
-  import TheFooter from '@components/globals/TheFooter.vue';
+import { RouterView } from "vue-router";
+import TheHeader from "@components/globals/TheHeader.vue";
+import TheFooter from "@components/globals/TheFooter.vue";
 </script>
 
 <template>
@@ -23,8 +23,8 @@
     top: 0;
     left: 0;
     right: 0;
-    padding-inline: 3rem;
-    padding-block-start: 1em;
+    background-color: var(--color-background);
+    z-index: 100;
   }
 }
 </style>
