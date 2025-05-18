@@ -1,15 +1,74 @@
 <script setup lang="ts">
+import ExpCard from "@/components/ExpCard.vue";
+import { onMounted, ref } from "vue";
+import { useDataInjection } from "@/composables/useDataInjection";
+import type { Experience } from "@/components/ExpCard.vue";
+import IconLoader from "@/components/icons/IconLoader.vue";
+const experiences = ref<Experience[] | null>(null);
 
+onMounted(async () => {
+  experiences.value = await useDataInjection().experiences();
+});
 </script>
 
 <template>
   <main class="wac-experiences-page page">
-    <h1>No results</h1>
+    <div v-if="!experiences">
+      <div class="wac-experiences-page__loading">
+        <IconLoader />
+      </div>
+    </div>
+    <div v-else>
+      <div class="wac-experiences-page__header" v-if="experiences && experiences.length === 0">
+        <h1 class="wac-experiences-page__title">No results</h1>
+        <p>Come later to see the list of experiences</p>
+      </div>
+      <div v-else>
+        <h1 class="wac-experiences-page__title">List of experiences</h1>
+        <div class="wac-experiences-page__exp-cards">
+          <ExpCard
+            :experience="experience"
+            v-for="experience in experiences"
+            :key="experience.id"
+          />
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
 <style lang="scss">
 .wac-experiences-page {
+  &__title {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  &__exp-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
 
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  &__loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
 }
 </style>

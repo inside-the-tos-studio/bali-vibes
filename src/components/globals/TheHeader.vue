@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import LogoBaliVibes from '../icons/LogoBaliVibes.vue';
+import LogoBaliVibes from "../icons/LogoBaliVibes.vue";
 </script>
 
 <template>
   <div class="wac-the-header">
     <div>
-     <router-link to="/">
-       <LogoBaliVibes />
-     </router-link>
+      <router-link to="/">
+        <LogoBaliVibes />
+      </router-link>
     </div>
     <ul>
       <li>
@@ -20,7 +20,7 @@ import LogoBaliVibes from '../icons/LogoBaliVibes.vue';
         <button class="btn--xs">Basket</button>
       </li>
       <li>
-        <div class="avatar text-gray-000 avatar--xs" data-text='AM'></div>
+        <div class="avatar text-gray-000 avatar--xs" data-text="AM"></div>
       </li>
     </ul>
   </div>
@@ -30,12 +30,17 @@ import LogoBaliVibes from '../icons/LogoBaliVibes.vue';
 .wac-the-header {
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
+  padding-inline: 3rem;
   ul {
     display: flex;
+    align-items: center;
     gap: 1rem;
     list-style: none;
     padding-inline-start: 0;
+    button {
+      margin: 0;
+    }
   }
 }
 </style>
