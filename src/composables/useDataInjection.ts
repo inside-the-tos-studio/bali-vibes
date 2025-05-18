@@ -1,14 +1,36 @@
-
-// TODO - implement the useDataInjection composable
-// use this url to get your data from a json source:
-// https://jsonkeeper.com/b/34CU
+import type { Experience } from "@/components/ExpCard.vue";
+import { useExperiencesStore } from "@/stores/experiences";
 
 export const useDataInjection = () => {
-  const experiences = () => {}
-  const getDetailsById = () => {}
+  const types = ["single", "double", "suite", "family", "penthouse", "apartment"];
+  const availabilityOptions = [
+    { value: "all", label: "All" },
+    { value: true, label: "Available" },
+    { value: false, label: "Unavailable" },
+  ];
+
+  const experiences = async (): Promise<Experience[]> => {
+    const data = await fetch("/data.json");
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    const experiences = await data.json();
+    useExperiencesStore().setExperiences(experiences);
+    return experiences;
+  };
+
+  const getDetailsById = async (id: number): Promise<Experience | null> => {
+    let datas = useExperiencesStore().getExperiences();
+
+    if (datas && datas.length === 0) {
+      datas = await experiences();
+    }
+    return datas.find((item: Experience) => item.id === id) || null;
+  };
 
   return {
+    types,
+    availabilityOptions,
     experiences,
     getDetailsById,
-  }
-}
+  };
+};
