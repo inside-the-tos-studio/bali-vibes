@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { useDataInjection } from "@/composables/useDataInjection";
 import type { Experience } from "@/components/ExpCard.vue";
 import { useDate } from "@/composables/useDate";
+import { useBasketStore } from "@/stores/basket.ts";
 
 const route = useRoute();
 const experience = ref<Experience | null>(null);
@@ -14,6 +15,18 @@ onMounted(async () => {
   today.value = new Date();
   experience.value = await useDataInjection().getDetailsById(Number(id));
 });
+
+const addItemToBasket = () => {
+  if (!experience.value) return;
+
+  useBasketStore().addItem({
+    id: experience.value?.id.toString(),
+    name: experience.value?.name,
+    price: experience.value?.price,
+  });
+
+  localStorage.setItem("basket", JSON.stringify(useBasketStore().basket.items));
+};
 </script>
 
 <template>
@@ -55,7 +68,7 @@ onMounted(async () => {
         at repudiandae voluptate molestiae odio aliquid tenetur sequi autem delectus repellendus
         animi, sint architecto corporis?
       </p>
-      <button>Book now</button>
+      <button @click="addItemToBasket">Book now</button>
     </div>
   </div>
 </template>

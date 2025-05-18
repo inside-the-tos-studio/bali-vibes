@@ -62,7 +62,7 @@ export interface AvailablePeriod {
 <style lang="scss" scoped>
 .exp-card {
   display: block;
-  background-color: #fff;
+  background-color: var(--vt-c-white);
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -89,7 +89,7 @@ export interface AvailablePeriod {
   }
 
   &__info {
-    color: #333;
+    color: var(--vt-c-text-light-2);
   }
 
   &__info-container {
@@ -99,12 +99,12 @@ export interface AvailablePeriod {
   &__name {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1a2c48;
+    color: var(--vt-c-indigo);
   }
 
   &__type {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--vt-c-text-light-2);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -112,7 +112,7 @@ export interface AvailablePeriod {
   &__price {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1f9d55;
+    color: var(--color-text);
     margin: 0 0 1rem;
   }
 
@@ -125,18 +125,18 @@ export interface AvailablePeriod {
 
     &--available {
       background-color: rgba(31, 157, 85, 0.15);
-      color: #1f9d55;
+      color: var(--color-text);
     }
 
     &--unavailable {
       background-color: rgba(231, 76, 60, 0.15);
-      color: #e74c3c;
+      color: var(--vt-c-text-dark-2);
     }
   }
 
   &__date {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--vt-c-text-light-2);
     text-align: right;
   }
 

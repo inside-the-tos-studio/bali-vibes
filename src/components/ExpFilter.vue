@@ -97,14 +97,14 @@ watch(values, (newValues) => {
 
 <style lang="scss" scoped>
 .filter-card {
-  background-color: #fff;
+  background-color: var(--vt-c-white);
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 50px;
   &__title {
     font-size: 24px;
     font-weight: 200;
-    color: #333;
+    color: var(--vt-c-text-light-2);
     margin-bottom: 40px;
   }
   &__form {
@@ -128,7 +128,7 @@ watch(values, (newValues) => {
   &__form-group-label {
     font-size: 14px;
     font-weight: 600;
-    color: #333;
+    color: var(--vt-c-text-light-2);
     margin-bottom: 5px;
   }
 }
