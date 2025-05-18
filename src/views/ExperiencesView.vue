@@ -5,7 +5,7 @@ import { useDataInjection } from "@/composables/useDataInjection";
 import { useExperiencesStore } from "@/stores/experiences";
 import type { Experience } from "@/components/ExpCard.vue";
 import IconLoader from "@/components/icons/IconLoader.vue";
-import FilterCard from "@/components/FilterCard.vue";
+import ExpFilter from "@/components/ExpFilter.vue";
 const experiences = ref<Experience[] | null>(null);
 
 onMounted(async () => {
@@ -25,7 +25,7 @@ const loadExperiences = (filters: {
 <template>
   <main class="wac-experiences-page page">
     <h1 class="wac-experiences-page__title">List of experiences</h1>
-    <FilterCard @load-experiences="loadExperiences" />
+    <ExpFilter @load-experiences="loadExperiences" />
     <div v-if="!experiences">
       <div class="wac-experiences-page__loading">
         <IconLoader />

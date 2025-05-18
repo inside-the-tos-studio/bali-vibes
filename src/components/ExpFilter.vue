@@ -21,6 +21,12 @@ watch(values, (newValues) => {
   if (filters.priceTo === "" || filters.priceTo === undefined) {
     delete filters.priceTo;
   }
+  if (filters.dateStart === "" || filters.dateStart === undefined) {
+    delete filters.dateStart;
+  }
+  if (filters.dateEnd === "" || filters.dateEnd === undefined) {
+    delete filters.dateEnd;
+  }
   emit("load-experiences", filters);
 });
 </script>
