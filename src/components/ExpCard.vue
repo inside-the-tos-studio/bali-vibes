@@ -124,13 +124,13 @@ export interface AvailablePeriod {
     border-radius: 10px;
 
     &--available {
-      background-color: rgba(31, 157, 85, 0.15);
-      color: var(--color-text);
+      background-color: rgba(31, 157, 85, 0.5);
+      color: var(--vt-c-text-dark-1);
     }
 
     &--unavailable {
-      background-color: rgba(231, 76, 60, 0.15);
-      color: var(--vt-c-text-dark-2);
+      background-color: rgba(231, 76, 60, 0.5);
+      color: var(--vt-c-text-dark-1);
     }
   }
 
